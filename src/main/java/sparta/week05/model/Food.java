@@ -1,6 +1,5 @@
 package sparta.week05.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import sparta.week05.dto.FoodRequestDto;
@@ -22,14 +21,16 @@ public class Food {
     @Column
     private Long price;
 
-    @ManyToOne
-    @JoinColumn
-    @JsonIgnore //무한루프를 타지 않게한다.
-    private Restaurant restaurant;
+    @Column
+    private Long restaurantId;
 
-    public Food(Restaurant restaurant, FoodRequestDto requestDto) {
-        this.restaurant = restaurant;
+    public Food(Long restaurantId, FoodRequestDto requestDto) {
+        this.restaurantId = restaurantId;
         this.name = requestDto.getName();
         this.price = requestDto.getPrice();
+    }
+
+    public Food(Food food) {
+
     }
 }

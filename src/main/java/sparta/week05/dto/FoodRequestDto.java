@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public class FoodRequestDto {
 
-    private String name;
-    private Long price;
+        private String name;
+        private Long price;
+
 }

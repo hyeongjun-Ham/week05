@@ -1,9 +1,12 @@
 package sparta.week05.model;
 
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
-public class Order {
+@NoArgsConstructor
+public class Orders {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -11,9 +14,6 @@ public class Order {
 
     @Column
     private String restaurantName;
-
-    @Column
-    private String foods;
 
     private String name;
 
@@ -25,4 +25,6 @@ public class Order {
 
     private Long totalPrice;
 
+    public Orders(String name) {
+    }
 }

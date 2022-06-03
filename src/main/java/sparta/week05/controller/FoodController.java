@@ -1,11 +1,11 @@
 package sparta.week05.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sparta.week05.dto.FoodRequestDto;
 import sparta.week05.dto.FoodResponseDto;
 import sparta.week05.model.Food;
-import sparta.week05.model.Restaurant;
 import sparta.week05.repository.FoodRepository;
 import sparta.week05.repository.RestaurantRepository;
 import sparta.week05.service.FoodService;
@@ -21,18 +21,22 @@ public class FoodController {
     private final RestaurantRepository restaurantRepository;
 
     //메뉴 등록
-    @PostMapping("/restaurant/{restaurantId}/food/register")
-    public Food registerFood(@PathVariable Long restaurantId, @RequestBody FoodRequestDto requestDto) {
+    @PostMapping("/restaurant/{restaurantId}/food/register") // 받아오는 것 자체를 리스트로 받아버린다.
+    public ResponseEntity registerFood(@PathVariable Long restaurantId, @RequestBody List<FoodRequestDto> requestDto) {
         //가게 있는지 체크
-        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(
+        restaurantRepository.findById(restaurantId).orElseThrow(
                 () -> new IllegalArgumentException("가게가 존재하지 않습니다.")
         );
-        //메뉴이름, 가격 유효성 체크
-        foodService.registerFood(restaurantId, requestDto);
+        for (FoodRequestDto foodRequestDto : requestDto) {
+            //메뉴이름, 가격 유효성 체크
+            foodService.registerFood(restaurantId, foodRequestDto);
 
-        Food food = new Food(restaurant, requestDto);
+            Food food = new Food(restaurantId, foodRequestDto);
 
-        return foodRepository.save(food);
+            foodRepository.save(food);
+        }
+        return ResponseEntity.ok(requestDto);
+
     }
 
 
