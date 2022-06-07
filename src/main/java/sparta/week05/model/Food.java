@@ -15,22 +15,18 @@ public class Food {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 
-    @Column
-    private Long price;
+    @Column(nullable = false)
+    private int price;
 
-    @Column
+    @Column(nullable = false)
     private Long restaurantId;
 
     public Food(Long restaurantId, FoodRequestDto requestDto) {
         this.restaurantId = restaurantId;
         this.name = requestDto.getName();
         this.price = requestDto.getPrice();
-    }
-
-    public Food(Food food) {
-
     }
 }

@@ -6,6 +6,6 @@ import lombok.Getter;
 public class FoodRequestDto {
 
         private String name;
-        private Long price;
+        private int price;
 
 }

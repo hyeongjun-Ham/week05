@@ -1,11 +1,17 @@
 package sparta.week05.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Orders {
 
     @Id
@@ -15,16 +21,22 @@ public class Orders {
     @Column
     private String restaurantName;
 
-    private String name;
+    @Column(nullable = false)
+    private int deliveryFee;
 
-    private Long quantity;
+    @Column(nullable = false)
+    private int totalPrice;
 
-    private Long price;
+    @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL)
+    private List<OrderMenu> foods = new ArrayList<>();
 
-    private Long deliveryFee;
+    public Orders(String restaurantName,int deliveryFee,int totalPrice){
+        this.restaurantName = restaurantName;
+        this.deliveryFee = deliveryFee;
+        this.totalPrice = totalPrice;
+    }
 
-    private Long totalPrice;
-
-    public Orders(String name) {
+    public void addFood(OrderMenu orderMenu) {
+        this.foods.add(orderMenu);
     }
 }

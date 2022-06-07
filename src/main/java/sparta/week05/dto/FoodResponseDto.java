@@ -10,7 +10,7 @@ public class FoodResponseDto {
 
     private Long id;
     private String name;
-    private Long price;
+    private int price;
 
     public FoodResponseDto(Food food) {
         this.id = food.getId();

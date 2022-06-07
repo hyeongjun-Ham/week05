@@ -12,11 +12,4 @@ public class RestaurantDto {
     private int minOrderPrice;
 
     private int deliveryFee;
-
-//    public RestaurantDto(Restaurant restaurant) {
-//        this.id = restaurant.getId();
-//        this.name = restaurant.getName();
-//        this.minOrderPrice = restaurant.getMinOrderPrice();
-//        this.deliveryFee = restaurant.getDeliveryFee();
-//    }
 }
