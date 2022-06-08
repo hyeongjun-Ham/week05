@@ -66,21 +66,21 @@ public class OrderService {
         if (totalOrderPrice < minOrderPrice) {
             throw new IllegalArgumentException("최소 주문가격 이상 주문해야 합니다.");
         }
-        Orders orders = new Orders(restaurantName,deliveryFee,totalPrice);
+        Orders orders = new Orders(restaurantName, deliveryFee, totalPrice);
 
         //주문 저장
 
-        for (int i = 0; i < foods.size(); i++) {
-            Long id = foods.get(i).getId();
+        for (OrderRequestDetailDto food : foods) {
+            Long id = food.getId();
 
             String name = foodRepository.findById(id).get().getName();
             int eachPrice = foodRepository.findById(id).get().getPrice();
-            int quantity = foods.get(i).getQuantity();
+            int quantity = food.getQuantity();
 
             int price = eachPrice * quantity;
-        OrderMenu orderMenu = new OrderMenu(name,orders,quantity,price);
+            OrderMenu orderMenu = new OrderMenu(name, orders, quantity, price);
 
-        orders.addFood(orderMenu);
+            orders.addFood(orderMenu);
         }
 
         return orderRepository.save(orders);
