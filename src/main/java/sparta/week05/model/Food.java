@@ -1,14 +1,20 @@
 package sparta.week05.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import sparta.week05.dto.FoodRequestDto;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 @Entity
+@Setter
 @Getter
 @NoArgsConstructor
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"name","resaurant"})})
 public class Food {
 
     @Id
@@ -19,13 +25,17 @@ public class Food {
     private String name;
 
     @Column(nullable = false)
+    @Max(10000)
+    @Min(1000)
     private int price;
 
-    @Column(nullable = false)
-    private Long restaurantId;
+    @ManyToOne
+    @JoinColumn
+    @JsonIgnore //무한루프 끊기
+    private Restaurant restaurant;
 
-    public Food(Long restaurantId, FoodRequestDto requestDto) {
-        this.restaurantId = restaurantId;
+    public Food(Restaurant restaurant, FoodRequestDto requestDto) {
+        this.restaurant = restaurant;
         this.name = requestDto.getName();
         this.price = requestDto.getPrice();
     }
